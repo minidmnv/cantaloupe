@@ -14,7 +14,7 @@ public class CoreWorld {
 
 	private Random random = new Random();
 
-	public CoreWorld(OrthographicCamera coreCamera) {
+	public CoreWorld() {
 		init();
 	}
 

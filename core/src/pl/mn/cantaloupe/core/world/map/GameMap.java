@@ -14,4 +14,8 @@ public class GameMap {
     public void setFields(List fields) {
         this.fields = fields;
     }
+
+    public Field getField(Integer fieldId) {
+        return fields.get(fieldId);
+    }
 }

@@ -17,4 +17,12 @@ public class Field {
         this.resource = resource;
         this.zones = Zone.zones();
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Field{");
+        sb.append("resource=").append(resource);
+        sb.append('}');
+        return sb.toString();
+    }
 }

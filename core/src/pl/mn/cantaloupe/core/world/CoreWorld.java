@@ -1,6 +1,7 @@
 package pl.mn.cantaloupe.core.world;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -20,8 +21,8 @@ public class CoreWorld {
 
     private static final String TAG = CoreWorld.class.getSimpleName();
 
-    private static final int NUMBER_OF_FIELDS = 25 - 1;
-    private static final int MAIN_FIELD_NUMBER = 13 - 1;
+    private static final int NUMBER_OF_FIELDS = 45 - 1;
+    private static final int MAIN_FIELD_NUMBER = 23 - 1;
 
     private Stage stage;
 	private GameMap gameMap;

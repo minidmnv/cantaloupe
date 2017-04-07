@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import pl.mn.cantaloupe.core.world.map.Zone;
 import pl.mn.cantaloupe.core.world.resource.ResourceType;
 import pl.mn.cantaloupe.shared.stage.actor.CantaloupeActor;
+import pl.mn.cantaloupe.util.DrawUtils;
+
+import static pl.mn.cantaloupe.util.DrawUtils.MAP_TILE_WIDTH;
 
 /**
  * @author asiazkrainyowiec
@@ -14,10 +17,12 @@ public class Field extends CantaloupeActor {
 
     private final List<Zone> zones;
     private final ResourceType resource;
+    private final Integer fieldId;
 
-    public Field(ResourceType resource) {
+    public Field(Integer fieldId, ResourceType resource) {
         this.resource = resource;
         this.zones = Zone.zones();
+        this.fieldId = fieldId;
     }
 
     @Override
@@ -30,9 +35,9 @@ public class Field extends CantaloupeActor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(resource.getTextureRegion(), getX() + 132 / 2, getY() + 80 / 2);
+        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() + 80 / 2);
         batch.draw(resource.getTextureRegion(), getX(), getY());
-        batch.draw(resource.getTextureRegion(), getX() + 132, getY());
-        batch.draw(resource.getTextureRegion(), getX() + 132 / 2, getY() - 80 / 2);
+        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH, getY());
+        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() - 80 / 2);
     }
 }

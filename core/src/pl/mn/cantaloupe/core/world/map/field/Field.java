@@ -35,9 +35,9 @@ public class Field extends CantaloupeActor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() + 80 / 2);
+        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() + (DrawUtils.MAP_TILE_HEIGHT - 27) / 2);
         batch.draw(resource.getTextureRegion(), getX(), getY());
         batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH, getY());
-        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() - 80 / 2);
+        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() - (DrawUtils.MAP_TILE_HEIGHT - 27) / 2);
     }
 }

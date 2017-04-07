@@ -20,8 +20,8 @@ public class CoreWorld {
 
     private static final String TAG = CoreWorld.class.getSimpleName();
 
-    private static final int NUMBER_OF_FIELDS = 18;
-    private static final int MAIN_FIELD_NUMBER = 9;
+    private static final int NUMBER_OF_FIELDS = 25 - 1;
+    private static final int MAIN_FIELD_NUMBER = 13 - 1;
 
     private Stage stage;
 	private GameMap gameMap;

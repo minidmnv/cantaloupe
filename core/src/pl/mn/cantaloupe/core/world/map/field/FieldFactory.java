@@ -20,8 +20,8 @@ public class FieldFactory {
     }
 
 	private static Field placeField(int i, Field field) {
-		field.setX(50 + i  * 132);
-		field.setY(50 + i * 83);
+		field.setX(50 + (i % 5) * 132 * 2);
+		field.setY(50 + (i / 5) * 83 * 2);
 		return field;
 	}
 }

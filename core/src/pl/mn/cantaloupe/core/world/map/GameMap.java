@@ -1,8 +1,8 @@
 package pl.mn.cantaloupe.core.world.map;
 
-import pl.mn.cantaloupe.core.world.map.field.Field;
-
 import java.util.List;
+
+import pl.mn.cantaloupe.core.world.map.field.Field;
 
 /**
  * @author asiazkrainyowiec
@@ -18,4 +18,8 @@ public class GameMap {
     public Field getField(Integer fieldId) {
         return fields.get(fieldId);
     }
+
+	public List<Field> getFields() {
+		return fields;
+	}
 }

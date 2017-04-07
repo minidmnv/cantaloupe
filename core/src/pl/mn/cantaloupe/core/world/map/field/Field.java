@@ -1,14 +1,15 @@
 package pl.mn.cantaloupe.core.world.map.field;
 
+import java.util.List;
+
 import pl.mn.cantaloupe.core.world.map.Zone;
 import pl.mn.cantaloupe.core.world.resource.ResourceType;
-
-import java.util.List;
+import pl.mn.cantaloupe.shared.stage.actor.CantaloupeActor;
 
 /**
  * @author asiazkrainyowiec
  */
-public class Field {
+public class Field extends CantaloupeActor {
 
     private final List<Zone> zones;
     private final ResourceType resource;

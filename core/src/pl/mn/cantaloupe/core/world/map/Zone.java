@@ -1,15 +1,16 @@
 package pl.mn.cantaloupe.core.world.map;
 
-import pl.mn.cantaloupe.core.world.player.Player;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import pl.mn.cantaloupe.core.world.player.Player;
+import pl.mn.cantaloupe.shared.stage.actor.CantaloupeActor;
+
 /**
  * @author asiazkrainyowiec
  */
-public class Zone {
+public class Zone extends CantaloupeActor {
 
     private final ZonePlacement placement;
     private Player currentOwner;

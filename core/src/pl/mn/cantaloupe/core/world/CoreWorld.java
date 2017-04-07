@@ -50,6 +50,7 @@ public class CoreWorld {
     private void generateMap() {
 		gameMap = new GameMap();
 		gameMap.setFields(generateFields());
+		gameMap.getFields().forEach(stage::addActor);
 	}
 
 	private List generateFields() {
@@ -61,11 +62,11 @@ public class CoreWorld {
 	    Field field;
 
         if (players.stream().anyMatch(player -> player.getHomeFieldNumber().equals(i))) {
-            field = FieldFactory.buildHomeField();
+            field = FieldFactory.buildHomeField(i);
         } else if(i == MAIN_FIELD_NUMBER) {
-            field = FieldFactory.buildMainField();
+            field = FieldFactory.buildMainField(i);
         } else {
-            field = FieldFactory.buildRegularField();
+            field = FieldFactory.buildRegularField(i);
         }
 
         return field;

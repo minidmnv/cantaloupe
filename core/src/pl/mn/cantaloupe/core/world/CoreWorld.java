@@ -8,10 +8,13 @@ import java.util.stream.IntStream;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import pl.mn.cantaloupe.core.screen.CoreScreen;
 import pl.mn.cantaloupe.core.world.map.GameMap;
 import pl.mn.cantaloupe.core.world.map.field.Field;
 import pl.mn.cantaloupe.core.world.map.field.FieldFactory;
+import pl.mn.cantaloupe.core.world.map.field.FieldTouchedListener;
 import pl.mn.cantaloupe.core.world.player.Player;
 
 /**
@@ -35,7 +38,8 @@ public class CoreWorld {
 	}
 
 	private void init() {
-		stage = new Stage();
+		stage = new Stage(new FitViewport(CoreScreen.VIEWPORT_WIDTH, CoreScreen.VIEWPORT_HEIGHT));
+		stage.addListener(new FieldTouchedListener());
 		generateMap();
 
 		raportInit();

@@ -27,7 +27,7 @@ public class CoreScreen extends ScreenAdapter implements GestureListener, InputP
 		coreCamera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
 		world = new CoreWorld();
-		Gdx.input.setInputProcessor(this);
+		Gdx.input.setInputProcessor(world.getStage());
 		renderer = new CoreRenderer(world, coreCamera);
 	}
 

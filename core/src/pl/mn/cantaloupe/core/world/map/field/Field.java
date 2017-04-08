@@ -1,5 +1,6 @@
 package pl.mn.cantaloupe.core.world.map.field;
 
+import static pl.mn.cantaloupe.util.DrawUtils.MAP_TILE_HEIGHT;
 import static pl.mn.cantaloupe.util.DrawUtils.MAP_TILE_WIDTH;
 import static pl.mn.cantaloupe.util.DrawUtils.MAP_X_SHIFT;
 import static pl.mn.cantaloupe.util.DrawUtils.MAP_Y_SHIFT;
@@ -18,6 +19,8 @@ import pl.mn.cantaloupe.util.DrawUtils;
  */
 public class Field extends CantaloupeActor {
 
+	private static final String TAG = Field.class.getSimpleName();
+
     private final List<Zone> zones;
     private final ResourceType resource;
     private final Integer fieldId;
@@ -26,6 +29,7 @@ public class Field extends CantaloupeActor {
         this.resource = resource;
         this.zones = Zone.zones();
         this.fieldId = fieldId;
+        addListener(new FieldTouchedListener());
     }
 
 	@Override
@@ -55,6 +59,7 @@ public class Field extends CantaloupeActor {
 		this.setX(xShift + (fieldId % xCount) * MAP_TILE_WIDTH * 2);
 		this.setY(MAP_Y_SHIFT + y * (DrawUtils.MAP_TILE_HEIGHT - 29));
 		this.setZIndex(0);
+		setBounds(getX(), getY() - (DrawUtils.MAP_TILE_HEIGHT - 33) / 2, MAP_TILE_WIDTH * 2, MAP_TILE_HEIGHT * 2);
 	}
 
 	private int countY() {
@@ -66,5 +71,5 @@ public class Field extends CantaloupeActor {
 	private boolean isEven(int y) {
 		return y % 2 == 0;
 	}
-	private boolean isOdd(int y) { return !isEven(y); }
+
 }

@@ -1,14 +1,17 @@
 package pl.mn.cantaloupe.core.world.map.field;
 
+import static pl.mn.cantaloupe.util.DrawUtils.MAP_TILE_WIDTH;
+import static pl.mn.cantaloupe.util.DrawUtils.MAP_X_SHIFT;
+import static pl.mn.cantaloupe.util.DrawUtils.MAP_Y_SHIFT;
+
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+
 import pl.mn.cantaloupe.core.world.map.Zone;
 import pl.mn.cantaloupe.core.world.resource.ResourceType;
 import pl.mn.cantaloupe.shared.stage.actor.CantaloupeActor;
 import pl.mn.cantaloupe.util.DrawUtils;
-
-import static pl.mn.cantaloupe.util.DrawUtils.MAP_TILE_WIDTH;
 
 /**
  * @author asiazkrainyowiec
@@ -25,19 +28,43 @@ public class Field extends CantaloupeActor {
         this.fieldId = fieldId;
     }
 
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Field{");
-        sb.append("resource=").append(resource);
-        sb.append('}');
-        return sb.toString();
-    }
+	@Override
+	public String toString() {
+		return "Field{" +
+				"resource=" + resource +
+				", fieldId=" + fieldId +
+				", zIndex=" + getZIndex() +
+				", coordinates=[" + getX() + ", " + getY() + "]" +
+				'}';
+	}
 
-    @Override
+	@Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() + (DrawUtils.MAP_TILE_HEIGHT - 27) / 2);
+        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() + (DrawUtils.MAP_TILE_HEIGHT - 33) / 2);
         batch.draw(resource.getTextureRegion(), getX(), getY());
         batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH, getY());
-        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() - (DrawUtils.MAP_TILE_HEIGHT - 27) / 2);
+        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() - (DrawUtils.MAP_TILE_HEIGHT - 33) / 2);
     }
+
+	public void placeField() {
+
+		int y = countY();
+		int xCount = isEven(y) ? 5 : 4;
+		int xShift = MAP_X_SHIFT + (isEven(y) ? 0 : MAP_TILE_WIDTH);
+
+		this.setX(xShift + (fieldId % xCount) * MAP_TILE_WIDTH * 2);
+		this.setY(MAP_Y_SHIFT + y * (DrawUtils.MAP_TILE_HEIGHT - 29));
+		this.setZIndex(0);
+	}
+
+	private int countY() {
+		int result = fieldId / 5;
+		int addition = (result / 2) + result % 2;
+		return result > 0 ? (fieldId + addition) / 5 : result;
+	}
+
+	private boolean isEven(int y) {
+		return y % 2 == 0;
+	}
+	private boolean isOdd(int y) { return !isEven(y); }
 }

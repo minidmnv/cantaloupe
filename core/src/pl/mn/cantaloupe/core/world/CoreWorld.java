@@ -1,7 +1,6 @@
 package pl.mn.cantaloupe.core.world;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -9,8 +8,9 @@ import java.util.stream.IntStream;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import pl.mn.cantaloupe.core.world.map.field.Field;
+
 import pl.mn.cantaloupe.core.world.map.GameMap;
+import pl.mn.cantaloupe.core.world.map.field.Field;
 import pl.mn.cantaloupe.core.world.map.field.FieldFactory;
 import pl.mn.cantaloupe.core.world.player.Player;
 
@@ -21,7 +21,7 @@ public class CoreWorld {
 
     private static final String TAG = CoreWorld.class.getSimpleName();
 
-    public static final int NUMBER_OF_FIELDS = 45 - 1;
+    public static final int NUMBER_OF_FIELDS = 41 - 1;
     public static final int MAIN_FIELD_NUMBER = 23 - 1;
 
     private Stage stage;
@@ -52,6 +52,7 @@ public class CoreWorld {
 		gameMap = new GameMap();
 		gameMap.setFields(generateFields());
 		gameMap.getFields().forEach(stage::addActor);
+		gameMap.getFields().forEach(Field::placeField);
 	}
 
 	private List generateFields() {

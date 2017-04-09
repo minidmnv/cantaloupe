@@ -1,18 +1,18 @@
 package pl.mn.cantaloupe.core.world.map.field;
 
-import static pl.mn.cantaloupe.util.DrawUtils.MAP_TILE_HEIGHT;
-import static pl.mn.cantaloupe.util.DrawUtils.MAP_TILE_WIDTH;
-import static pl.mn.cantaloupe.util.DrawUtils.MAP_X_SHIFT;
-import static pl.mn.cantaloupe.util.DrawUtils.MAP_Y_SHIFT;
-
-import java.util.List;
-
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import pl.mn.cantaloupe.core.world.map.Zone;
 import pl.mn.cantaloupe.core.world.resource.ResourceType;
 import pl.mn.cantaloupe.shared.stage.actor.CantaloupeActor;
 import pl.mn.cantaloupe.util.DrawUtils;
+
+import java.util.List;
+
+import static pl.mn.cantaloupe.util.DrawUtils.*;
 
 /**
  * @author asiazkrainyowiec
@@ -29,8 +29,20 @@ public class Field extends CantaloupeActor {
         this.resource = resource;
         this.zones = Zone.zones();
         this.fieldId = fieldId;
-        addListener(new FieldTouchedListener());
+        addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				chosen();
+				return super.touchDown(event, x, y, pointer, button);
+			}
+		});
+        setTouchable(Touchable.enabled);
+//        this.debug();
     }
+
+	private void chosen() {
+		Gdx.app.log(TAG, String.format("%d Zostałem wybrany!", fieldId));
+	}
 
 	@Override
 	public String toString() {
@@ -48,10 +60,10 @@ public class Field extends CantaloupeActor {
         batch.draw(resource.getTextureRegion(), getX(), getY());
         batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH, getY());
         batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() - (DrawUtils.MAP_TILE_HEIGHT - 33) / 2);
+        super.draw(batch, parentAlpha);
     }
 
 	public void placeField() {
-
 		int y = countY();
 		int xCount = isEven(y) ? 5 : 4;
 		int xShift = MAP_X_SHIFT + (isEven(y) ? 0 : MAP_TILE_WIDTH);
@@ -71,5 +83,6 @@ public class Field extends CantaloupeActor {
 	private boolean isEven(int y) {
 		return y % 2 == 0;
 	}
+
 
 }

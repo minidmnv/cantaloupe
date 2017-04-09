@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -33,13 +36,19 @@ public class CoreWorld {
 
 	private Random random = new Random();
 
-	public CoreWorld() {
-		init();
+	public CoreWorld(OrthographicCamera coreCamera) {
+		init(coreCamera);
 	}
 
-	private void init() {
-		stage = new Stage(new FitViewport(CoreScreen.VIEWPORT_WIDTH, CoreScreen.VIEWPORT_HEIGHT));
-		stage.addListener(new FieldTouchedListener());
+	private void init(OrthographicCamera coreCamera) {
+		stage = new Stage(new FitViewport(CoreScreen.VIEWPORT_WIDTH, CoreScreen.VIEWPORT_HEIGHT, coreCamera));
+		stage.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Gdx.app.log(TAG, String.format("%f, %f stage", x, y));
+				return super.touchDown(event, x, y, pointer, button);
+			}
+		});
 		generateMap();
 
 		raportInit();
@@ -49,7 +58,7 @@ public class CoreWorld {
 	    Gdx.app.log(TAG, "Wygenerowane pola:");
 	    IntStream.rangeClosed(0, NUMBER_OF_FIELDS)
                 .mapToObj(fieldId -> fieldId + " " + gameMap.getField(fieldId).toString())
-                .forEach(field -> Gdx.app.log(TAG, field));
+                .forEach(fieldText -> Gdx.app.log(TAG, fieldText));
     }
 
     private void generateMap() {

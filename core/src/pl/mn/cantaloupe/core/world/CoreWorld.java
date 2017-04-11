@@ -20,6 +20,9 @@ import pl.mn.cantaloupe.core.world.map.field.FieldFactory;
 import pl.mn.cantaloupe.core.world.map.field.FieldTouchedListener;
 import pl.mn.cantaloupe.core.world.player.Player;
 
+import static pl.mn.cantaloupe.core.screen.CoreScreen.VIEWPORT_HEIGHT;
+import static pl.mn.cantaloupe.core.screen.CoreScreen.VIEWPORT_WIDTH;
+
 /**
  * @author mnicinski
  */
@@ -41,7 +44,7 @@ public class CoreWorld {
 	}
 
 	private void init(OrthographicCamera coreCamera) {
-		stage = new Stage(new FitViewport(CoreScreen.VIEWPORT_WIDTH, CoreScreen.VIEWPORT_HEIGHT, coreCamera));
+		stage = new Stage(new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, coreCamera));
 		stage.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

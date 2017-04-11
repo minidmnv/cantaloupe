@@ -13,23 +13,25 @@ import pl.mn.cantaloupe.core.world.CoreWorld;
  */
 public class CoreRenderer {
 
+	private final OrthographicCamera coreCamera;
 	private CoreWorld world;
 	private SpriteBatch batcher;
 	private ShapeRenderer shapeRenderer;
 
 	public CoreRenderer(CoreWorld world, OrthographicCamera coreCamera) {
 		this.world = world;
+		this.coreCamera = coreCamera;
 
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setProjectionMatrix(coreCamera.combined);
 
 		batcher = new SpriteBatch();
-		batcher.setProjectionMatrix(coreCamera.combined);
 	}
 
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batcher.begin();
+		batcher.setProjectionMatrix(coreCamera.combined);
 		world.getStage()
 				.getActors()
 				.forEach(actor -> actor.draw(batcher, 1));

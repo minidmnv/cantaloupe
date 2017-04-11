@@ -19,8 +19,8 @@ public enum ResourceType {
     private Texture texture;
 
 
-    ResourceType(Texture textureRegion) {
-        this.texture = textureRegion;
+    ResourceType(Texture texture) {
+        this.texture = texture;
     }
 
     public static ResourceType random() {

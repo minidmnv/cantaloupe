@@ -2,10 +2,7 @@ package pl.mn.cantaloupe.core.world.map.field;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -46,6 +43,7 @@ public class Field extends CantaloupeActor {
 
 	private void chosen() {
 		Gdx.app.log(TAG, String.format("%d Zostałem wybrany!", fieldId));
+		setScale(5);
 	}
 
 	@Override
@@ -90,7 +88,7 @@ public class Field extends CantaloupeActor {
 
 	@Override
 	public Actor hit(float x, float y, boolean touchable) {
-    	Gdx.app.log(TAG,  "[" + x + ", " + y + "]");
+		Vector2 coordinates = localToParentCoordinates(new Vector2(x, y));
 		if (!isVisible() || !isTouchable()) {
 			return null;
 		}
@@ -102,8 +100,7 @@ public class Field extends CantaloupeActor {
 				new Vector2(getX() + MAP_TILE_WIDTH * 2, getY() + MAP_TILE_HEIGHT),
 				new Vector2(getX() + MAP_TILE_WIDTH, getY() + MAP_TILE_HEIGHT * 2));
 
-		if (Intersector.isPointInPolygon(boundPolygonVertices, new Vector2(x, y))) {
-			Gdx.app.log(TAG, "Trafiony, zatopiony" + boundPolygonVertices.toString() + "[" + x + ", " + y + "]");
+		if (Intersector.isPointInPolygon(boundPolygonVertices, new Vector2(coordinates.x, coordinates.y))) {
 			return this;
 		}
 

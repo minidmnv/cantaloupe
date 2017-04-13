@@ -33,6 +33,7 @@ public class CoreScreen extends ScreenAdapter implements GestureListener, InputP
 
 	@Override
 	public void render(float delta) {
+		coreCamera.update();
 		world.update(delta);
 		renderer.render();
 	}

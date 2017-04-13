@@ -1,6 +1,7 @@
 package pl.mn.cantaloupe.core.world.map.field;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -26,6 +27,8 @@ public class Field extends CantaloupeActor {
     private final List<Zone> zones;
     private final ResourceType resource;
     private final Integer fieldId;
+	Array<Vector2> boundPolygonVertices;
+    private Integer originZIndex;
 
     public Field(Integer fieldId, ResourceType resource) {
         this.resource = resource;
@@ -44,6 +47,8 @@ public class Field extends CantaloupeActor {
 	private void chosen() {
 		Gdx.app.log(TAG, String.format("%d Zostałem wybrany!", fieldId));
 		setScale(5);
+		originZIndex = getZIndex();
+		setZIndex(Integer.MAX_VALUE);
 	}
 
 	@Override
@@ -58,10 +63,14 @@ public class Field extends CantaloupeActor {
 
 	@Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() + (MAP_TILE_HEIGHT * 1.5f) - 15 );
-        batch.draw(resource.getTextureRegion(), getX(), getY() + MAP_TILE_HEIGHT);
-        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH, getY() + MAP_TILE_HEIGHT);
-        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() + (MAP_TILE_HEIGHT / 2) + 16);
+        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() + (MAP_TILE_HEIGHT * 1.5f) - 15
+				, getOriginX(), getOriginY(), getWidth() / 2, getHeight() / 2, getScaleX(), getScaleY(), getRotation());
+        batch.draw(resource.getTextureRegion(), getX(), getY() + MAP_TILE_HEIGHT
+				, getOriginX(), getOriginY(), getWidth() / 2, getHeight() / 2, getScaleX(), getScaleY(), getRotation());
+        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH, getY() + MAP_TILE_HEIGHT
+				, getOriginX(), getOriginY(), getWidth() / 2, getHeight() / 2, getScaleX(), getScaleY(), getRotation());
+        batch.draw(resource.getTextureRegion(), getX() + MAP_TILE_WIDTH / 2, getY() + (MAP_TILE_HEIGHT / 2) + 16
+				, getOriginX(), getOriginY(), getWidth() / 2, getHeight() / 2, getScaleX(), getScaleY(), getRotation());
         super.draw(batch, parentAlpha);
     }
 
@@ -74,6 +83,8 @@ public class Field extends CantaloupeActor {
 		this.setY(MAP_Y_SHIFT + y * (MAP_TILE_HEIGHT - 29));
 		this.setZIndex(0);
 		setBounds(getX(), getY(), MAP_TILE_WIDTH * 2, MAP_TILE_HEIGHT * 2);
+
+		boundPolygonVertices = getBoundPolygonVertices();
 	}
 
 	private int countY() {
@@ -93,17 +104,20 @@ public class Field extends CantaloupeActor {
 			return null;
 		}
 
+		if (Intersector.isPointInPolygon(boundPolygonVertices, new Vector2(coordinates.x, coordinates.y))) {
+			return this;
+		}
+
+		return null;
+	}
+
+	private Array<Vector2> getBoundPolygonVertices() {
 		Array<Vector2> boundPolygonVertices = Array.of(Vector2.class);
 		boundPolygonVertices.addAll(
 				new Vector2(getX(), getY() + MAP_TILE_HEIGHT),
 				new Vector2(getX() + MAP_TILE_WIDTH, getY()),
 				new Vector2(getX() + MAP_TILE_WIDTH * 2, getY() + MAP_TILE_HEIGHT),
 				new Vector2(getX() + MAP_TILE_WIDTH, getY() + MAP_TILE_HEIGHT * 2));
-
-		if (Intersector.isPointInPolygon(boundPolygonVertices, new Vector2(coordinates.x, coordinates.y))) {
-			return this;
-		}
-
-		return null;
+		return boundPolygonVertices;
 	}
 }

@@ -1,24 +1,21 @@
 package pl.mn.cantaloupe.core.world;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
-import pl.mn.cantaloupe.core.screen.CoreScreen;
 import pl.mn.cantaloupe.core.world.map.GameMap;
 import pl.mn.cantaloupe.core.world.map.field.Field;
 import pl.mn.cantaloupe.core.world.map.field.FieldFactory;
-import pl.mn.cantaloupe.core.world.map.field.FieldTouchedListener;
 import pl.mn.cantaloupe.core.world.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static pl.mn.cantaloupe.core.screen.CoreScreen.VIEWPORT_HEIGHT;
 import static pl.mn.cantaloupe.core.screen.CoreScreen.VIEWPORT_WIDTH;
@@ -33,18 +30,18 @@ public class CoreWorld {
     public static final int NUMBER_OF_FIELDS = 41 - 1;
     public static final int MAIN_FIELD_NUMBER = 23 - 1;
 
-    private Stage stage;
+    private WorldStage stage;
 	private GameMap gameMap;
 	private List<Player> players = new ArrayList();
 
 	private Random random = new Random();
 
 	public CoreWorld(OrthographicCamera coreCamera) {
-		init(coreCamera);
-	}
+			init(coreCamera);
+		}
 
 	private void init(OrthographicCamera coreCamera) {
-		stage = new Stage(new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, coreCamera));
+		stage = new WorldStage(this, new FitViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, coreCamera));
 		stage.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -99,4 +96,7 @@ public class CoreWorld {
 				.forEach(actor -> actor.act(delta));
 	}
 
+	public void chooseField(Integer fieldId) {
+		gameMap.chooseField(fieldId);
+	}
 }

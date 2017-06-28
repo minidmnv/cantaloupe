@@ -1,7 +1,6 @@
 package pl.mn.cantaloupe.core.world.map.field;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -9,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
+import pl.mn.cantaloupe.core.world.WorldStage;
 import pl.mn.cantaloupe.core.world.map.Zone;
 import pl.mn.cantaloupe.core.world.resource.ResourceType;
 import pl.mn.cantaloupe.shared.stage.actor.CantaloupeActor;
@@ -26,7 +26,8 @@ public class Field extends CantaloupeActor {
 
     private final List<Zone> zones;
     private final ResourceType resource;
-    private final Integer fieldId;
+    public final Integer fieldId;
+    private boolean chosen = false;
 	Array<Vector2> boundPolygonVertices;
     private Integer originZIndex;
 
@@ -37,18 +38,32 @@ public class Field extends CantaloupeActor {
         addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				chosen();
+				if (!chosen) {
+					choose();
+				} else {
+					unChoose();
+				}
 				return super.touchDown(event, x, y, pointer, button);
 			}
 		});
         setTouchable(Touchable.enabled);
     }
 
-	private void chosen() {
+	private void choose() {
 		Gdx.app.log(TAG, String.format("%d Zostałem wybrany!", fieldId));
 		setScale(5);
 		originZIndex = getZIndex();
 		setZIndex(Integer.MAX_VALUE);
+		((WorldStage) getStage()).chooseField(fieldId);
+		chosen = true;
+	}
+
+	public void unChoose() {
+		Gdx.app.log(TAG, String.format("%d Zostałem odebrany :(:(:( !", fieldId));
+		setScale(1);
+		placeField();
+		setZIndex(originZIndex);
+		chosen = false;
 	}
 
 	@Override
